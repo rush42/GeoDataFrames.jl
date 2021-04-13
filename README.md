@@ -1,4 +1,4 @@
-# GeoDataFrames.jl-
+# GeoDataFrames.jl
 An extension to the DataFrames.jl library for handling geospatial data
 
 
