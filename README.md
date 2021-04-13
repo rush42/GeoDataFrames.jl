@@ -12,7 +12,8 @@ The underliying framework is LibGEOS.jl.
 GeoVector implements the AbstractArray interface (GeoVector <: AbstractVector).
 
 The following methods are implemented and work like their geopandas equivalent.
-envelope( gvec::GeoVector ) = GeoVector( LibGEOS.envelope.(gvec.geometry), gvec.projected )
+```Julia
+envelope( gvec::GeoVector )
 
 boundary(gvec::GeoVector)
 
@@ -37,6 +38,7 @@ union(gvec::GeoVector)
 area(gvec::GeoVector)
 
 bounds(gvec::GeoVector)
+```
 
 Additionally a recipe is provided for plotting GeoVectors.
 This takes care to set the right aspect ratio when plotting unprojected(spherical geometries).
