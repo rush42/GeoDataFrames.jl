@@ -1,0 +1,10 @@
+name = "GeoDataFrames"
+uuid = "4eb73e3d-d553-4037-8314-ca463a2f1bec"
+authors = ["laurenz "]
+version = "0.1.0"
+
+[deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
+LibGEOS = "a90b1aa1-3769-5649-ba7e-abc5a9d163eb"
+RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
