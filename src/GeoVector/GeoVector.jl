@@ -4,7 +4,7 @@ using RecipesBase
 
 include("Convenience.jl")
 
-struct GeoVector <: AbstractVector
+struct GeoVector <: AbstractVector{AbstractGeometry}
     geometry::Vector{AbstractGeometry}
     projected::Bool
 end
@@ -12,8 +12,6 @@ end
 Base.size(gvec::GeoVector)= size(gvec.geometry)
 
 Base.getindex(gvec::GeoVector, i::Int) = gvec.geometry[i]
-
-#Base.getindex(gvec::GeoVector, I...) = gvec.geometry[I...]
 
 Base.getindex(gvec::GeoVector, I::Vararg{Int, N}) where {N} = gvec.geometry[I...]
 
