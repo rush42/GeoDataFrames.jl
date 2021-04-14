@@ -20,17 +20,17 @@ Return all z coordinates of 'geom' as flat array
 """
 zcoords(geom::AbstractPoint) = [zcoord(coordinates(geom))]
 
-xcoords(geom::Union{AbstractLineString, AbstractMultiPoint}) = xcoord.(coordinates(geom))
+xcoords(geom::Union{AbstractLineString, AbstractMultiPoint}) = xcoord.(coordinates(geom)) 
 ycoors(geom::Union{AbstractLineString, AbstractMultiPoint}) = ycoord.(coordinates(geom))
 zcoors(geom::Union{AbstractLineString, AbstractMultiPoint}) = zcoord.(coordinates(geom))
 
-xcoords(geom::Union{AbstractPolygon,AbstractMultiLineString}) = xcoord.(vcat(coordinates(geom)...))
-ycoords(geom::Union{AbstractPolygon,AbstractMultiLineString}) = ycoord.(vcat(coordinates(geom)...))
-zcoords(geom::Union{AbstractPolygon,AbstractMultiLineString}) = zcoord.(vcat(coordinates(geom)...))
+xcoords(geom::Union{AbstractPolygon,AbstractMultiLineString}) = xcoord.(reduce(vcat,coordinates(geom)))
+ycoords(geom::Union{AbstractPolygon,AbstractMultiLineString}) = ycoord.(reduce(vcat,coordinates(geom)))
+zcoords(geom::Union{AbstractPolygon,AbstractMultiLineString}) = zcoord.(reduce(vcat,coordinates(geom)))
 
-xcoords(geom::AbstractMultiPolygon) = xcoord.(vcat(vcat(coordinates(geom)...)...))
-ycoords(geom::AbstractMultiPolygon) = ycoord.(vcat(vcat(coordinates(geom)...)...))
-zcoords(geom::AbstractMultiPolygon) = zcoord.(vcat(vcat(coordinates(geom)...)...))
+xcoords(geom::AbstractMultiPolygon) = xcoord.(reduce(vcat,reduce(vcat,coordinates(geom))))
+ycoords(geom::AbstractMultiPolygon) = ycoord.(reduce(vcat,reduce(vcat,coordinates(geom))))
+zcoords(geom::AbstractMultiPolygon) = zcoord.(reduce(vcat,reduce(vcat,coordinates(geom))))
 
 """
     toGeos(geom)

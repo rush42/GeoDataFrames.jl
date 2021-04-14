@@ -1,6 +1,7 @@
 using LibGEOS
 using GeoInterface
 using RecipesBase
+using LibSpatialIndex
 
 include("Convenience.jl")
 
@@ -51,25 +52,32 @@ is_valid(gvec::GeoVector)= LibGEOS.isValid.(gvec.geometry)
 
 is_ring(gvec::GeoVector)= LibGEOS.isRing.(gvec.geometry)
 
-union(gvec::GeoVector) = foldr(LibGEOS.union, gvec.geometry)
+union(gvec::GeoVector) = reduce(LibGEOS.union, gvec.geometry)
 
 area(gvec::GeoVector) = LibGEOS.area.(gvec.geometry)
 
+function ratio(gvec::GeoVector)
+    _,minY,_,maxY = bounds(gvec)
+    df_y = (minY + maxY)/2
+    return 1/cos(df_y * pi/180)
+end
+
+function sindex(gvec::GeoVector)
+    sindex = LibSpatialIndex.RTree(2)
+    for geom in gvec
+        LibSpatialIndex.insert!(sindex, )
+    end
+
+end
+
 function bounds(gvec::GeoVector) 
-    Xs = vcat(xcoords.(gvec.geometry)...)
-    Ys = vcat(ycoords.(gvec.geometry)...)
-    return (min(Xs...), min(Ys...), max(Xs...), max(Ys...))
+    Xs = reduce(vcat, xcoords.(gvec.geometry))
+    Ys = reduce(vcat, ycoords.(gvec.geometry))
+    return (minimum(Xs), minimum(Ys), maximum(Xs), maximum(Ys))
 end
 
 
 RecipesBase.@recipe function f(gvec::GeoVector)
-    ratio = 1
-    if !gvec.projected
-        _,minY,_,maxY = bounds(gvec)
-        df_y = (minY + maxY)/2
-        ratio = 1/cos(df_y * pi/180)
-    end
-
-    aspect_ratio --> ratio
+    aspect_ratio --> (v.projected ? 1 : ratio(v))
     gvec.geometry
 end
