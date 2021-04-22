@@ -10,6 +10,7 @@ The underliying framework is LibGEOS.jl.
 
 # Working
 GeoVector implements the AbstractArray interface (GeoVector <: AbstractVector).
+
 Currently there is only the default constructor:
 ```Julia 
 GeoVector(Vector{AbstractGeometry}, Bool)
