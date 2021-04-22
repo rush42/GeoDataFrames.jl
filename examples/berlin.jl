@@ -1,6 +1,4 @@
-using Plots, GeoJSON, Random
-
-include("../src/GeoVector/GeoVector.jl")
+using GeoDataFrames, Plots, GeoJSON, GeoInterface, Random
 
 berlin = GeoJSON.read(read("GeoDataFrames.jl/examples/berlin.geojson"))
 

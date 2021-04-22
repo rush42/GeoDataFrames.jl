@@ -1,7 +1,3 @@
-using LibGEOS
-using GeoInterface
-using RecipesBase
-
 include("Convenience.jl")
 
 struct GeoVector <: AbstractVector{AbstractGeometry}
@@ -32,15 +28,15 @@ Base.similar(gvec::GeoVector, (N,)::Dims) = GeoVector(Vector{AbstractGeometry}(u
 """
 Constructive Methods
 """
-centroid(gvec::GeoVector) = GeoVector(LibGEOS.centroid.(gvec.geometries), gvec.projected)
+LibGEOS.centroid(gvec::GeoVector) = GeoVector(LibGEOS.centroid.(gvec.geometries), gvec.projected)
 
-simplify(gvec::GeoVector, tol::Real) = GeoVector(LibGEOS.simplify.(gvec.geometries, Ref(tol)), gvec.projected)
+LibGEOS.simplify(gvec::GeoVector, tol::Real) = GeoVector(LibGEOS.simplify.(gvec.geometries, Ref(tol)), gvec.projected)
 
-envelope(gvec::GeoVector) = GeoVector(LibGEOS.envelope.(gvec.geometries), gvec.projected)
+LibGEOS.envelope(gvec::GeoVector) = GeoVector(LibGEOS.envelope.(gvec.geometries), gvec.projected)
 
-boundary(gvec::GeoVector) = GeoVector(LibGEOS.boundary.(gvec.geometries), gvec.projected)
+LibGEOS.boundary(gvec::GeoVector) = GeoVector(LibGEOS.boundary.(gvec.geometries), gvec.projected)
 
-buffer(gvec::GeoVector, dist::Real) = GeoVector(LibGEOS.bufferWithStyle.(gvec.geometries, Ref(dist)), gvec.projected)
+LibGEOS.buffer(gvec::GeoVector, dist::Real) = GeoVector(LibGEOS.bufferWithStyle.(gvec.geometries, Ref(dist)), gvec.projected)
 
 LibGEOS.convexhull(gvec::GeoVector) = GeoVector(LibGEOS.convexhull.(gvec.geometries), gvec.projected)
 
@@ -66,9 +62,6 @@ Binary Predicates
 LibGEOS.within(gvec::GeoVector, other::GeoVector) = LibGEOS.within.(gvec, other)
 LibGEOS.within(gvec::GeoVector, other::AbstractGeometry) = LibGEOS.within.(gvec, Ref(toGEOS(other)))
 
-contains(gvec::GeoVector, other::GeoVector) = LibGEOS.within.(other, gvec)
-contains(gvec::GeoVector, other::AbstractGeometry) = LibGEOS.within.(Ref(toGEOS(other)), gvec)
-
 touches(gvec::GeoVector, other::GeoVector) = LibGEOS.touches.(gvec, other)
 touches(gvec::GeoVector, other::AbstractGeometry) = LibGEOS.touches.(gvec, Ref(toGEOS(other)))
 
@@ -86,6 +79,9 @@ intersects(gvec::GeoVector, other::AbstractGeometry) = LibGEOS.intersects.(gvec,
 
 contains(gvec::GeoVector, other::GeoVector) = LibGEOS.containsproperly.(gvec, other)
 contains(gvec::GeoVector, other::AbstractGeometry) = LibGEOS.containsproperly.(gvec, Ref(toGEOS(other)))
+
+#contains(gvec::GeoVector, other::GeoVector) = LibGEOS.within.(other, gvec)
+#contains(gvec::GeoVector, other::AbstractGeometry) = LibGEOS.within.(Ref(toGEOS(other)), gvec)
 
 covers(gvec::GeoVector, other::GeoVector) = LibGEOS.covers.(gvec, other)
 covers(gvec::GeoVector, other::AbstractGeometry) = LibGEOS.covers.(gvec, Ref(toGEOS(other)))
@@ -117,7 +113,7 @@ area(gvec::GeoVector) = LibGEOS.area.(gvec.geometries)
 function ratio(gvec::GeoVector)
     _,minY,_,maxY = totalbounds(gvec)
     df_y = (minY + maxY)/2
-    return v.projected ? 1 : 1/cos(df_y * pi/180)
+    return gvec.projected ? 1 : 1/cos(df_y * pi/180)
 end
 
 
@@ -129,8 +125,6 @@ end
 
 
 RecipesBase.@recipe function f(gvec::GeoVector)
-    aspect_ratio --> ratio(v)
+    aspect_ratio --> ratio(gvec)
     gvec.geometries
 end
-
-savefig("./berlin.gif")
