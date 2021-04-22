@@ -13,7 +13,8 @@ GeoVector implements the AbstractArray interface (GeoVector <: AbstractVector).
 
 Currently there is only the default constructor:
 ```Julia 
-GeoVector(Vector{AbstractGeometry}, Bool)```
+GeoVector(Vector{AbstractGeometry}, Bool)
+```
 
 The following methods are implemented and work like their geopandas equivalent.
 
