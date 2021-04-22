@@ -21,17 +21,17 @@ The following methods are implemented and work like their geopandas equivalent.
 """
 Constructive Methods
 """
-LibGEOS.centroid(gvec::GeoVector)
+centroid(gvec::GeoVector)
 
-LibGEOS.simplify(gvec::GeoVector, tol::Real)
+simplify(gvec::GeoVector, tol::Real)
 
-LibGEOS.envelope(gvec::GeoVector)
+envelope(gvec::GeoVector)
 
-LibGEOS.boundary(gvec::GeoVector)
+boundary(gvec::GeoVector)
 
-LibGEOS.buffer(gvec::GeoVector, dist::Real)
+buffer(gvec::GeoVector, dist::Real)
 
-LibGEOS.convexhull(gvec::GeoVector)
+convexhull(gvec::GeoVector)
 
 
 """
@@ -39,8 +39,6 @@ Unary Predicates
 """
 
 hasz(gvec::GeoVector)
-
-#isempty(gvec::GeoVector)
 
 issimple(gvec::GeoVector)
 
@@ -52,14 +50,14 @@ isring(gvec::GeoVector)
 """
 Binary Predicates
 """
-LibGEOS.within(gvec::GeoVector, other::GeoVector)
-LibGEOS.within(gvec::GeoVector, other::AbstractGeometry)
+within(gvec::GeoVector, other::GeoVector)
+within(gvec::GeoVector, other::AbstractGeometry)
 
 touches(gvec::GeoVector, other::GeoVector)
 touches(gvec::GeoVector, other::AbstractGeometry)
 
-LibGEOS.equals(gvec::GeoVector, other::GeoVector)
-LibGEOS.equals(gvec::GeoVector, other::AbstractGeometry)
+equals(gvec::GeoVector, other::GeoVector)
+equals(gvec::GeoVector, other::AbstractGeometry)
 
 equalsexact(gvec::GeoVector, other::GeoVector)
 equalsexact(gvec::GeoVector, other::AbstractGeometry)
@@ -73,9 +71,6 @@ intersects(gvec::GeoVector, other::AbstractGeometry)
 contains(gvec::GeoVector, other::GeoVector)
 contains(gvec::GeoVector, other::AbstractGeometry)
 
-#contains(gvec::GeoVector, other::GeoVector)
-#contains(gvec::GeoVector, other::AbstractGeometry)
-
 covers(gvec::GeoVector, other::GeoVector)
 covers(gvec::GeoVector, other::AbstractGeometry)
 
@@ -86,11 +81,11 @@ coveredby(gvec::GeoVector, other::AbstractGeometry)
 Set-theoretic Methods
 """
 
-LibGEOS.intersection(gvec::GeoVector, other::AbstractGeometry)
-LibGEOS.intersection(gvec::GeoVector, other::GeoVector)
+intersection(gvec::GeoVector, other::AbstractGeometry)
+intersection(gvec::GeoVector, other::GeoVector)
 
-LibGEOS.difference(gvec::GeoVector, other::AbstractGeometry)
-LibGEOS.difference(gvec::GeoVector, other::GeoVector)
+difference(gvec::GeoVector, other::AbstractGeometry)
+difference(gvec::GeoVector, other::GeoVector)
 
 symmetricdifference(gvec::GeoVector, other::AbstractGeometry)
 symmetricdifference(gvec::GeoVector, other::GeoVector)
