@@ -1,4 +1,4 @@
-using Plots, GeoJSON
+using Plots, GeoJSON, Random
 
 include("../src/GeoVector/GeoVector.jl")
 
@@ -10,14 +10,20 @@ for f in features(berlin)
 end
 
 v = GeoVector(districts, false)
+v = v[randperm(length(v))]
 
 
-plot(v)
-plot(envelope(v), palette=palette([:blue,:green, :yellow,:red, :white], length(v)))
-plot!(boundary(v), linewidth=3, palette=palette([:blue,:green, :yellow,:red, :white], length(v), reverse=true))
+plot(v, palette=palette(:darktest,length(v)))
+plot(envelope(v), palette=palette(:darktest,length(v)))
 plot(centroid(v))
-plot(union(v), aspect_ratio = ratio(v))
+plot(unaryunion(v), aspect_ratio = ratio(v))
 plot(v, palette=palette([:blue,:green,:red], length(v)))
 plot(v[area(v) .> 0.01], color = :red)
-plot(union(v))
-LibGEOS.exteriorRing.(envelope(v))
+plot(convexhull(v), palette=palette(:darktest, length(v), rev=true))
+
+anim = @animate for i ∈ 0:0.04:π
+    r = (1 - sin(i)) * 0.2
+    plot(buffer(v, r), palette=palette(:darktest,length(v)),framestyle=:none, save=true)
+end
+
+gif(anim, "/home/laurenz/Documents/berlin.gif", fps=15)
