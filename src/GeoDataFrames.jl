@@ -3,6 +3,7 @@ module GeoDataFrames
 using GeoInterface, LibGEOS, RecipesBase
 
 include("GeoVector/GeoVector.jl")
+include("GeoDataFrame/GeoDataFrame.jl")
 
 export GeoVector,
 size,
@@ -35,7 +36,17 @@ difference,
 symmetricdifference,
 union,
 unaryunion,
+ratio,
 area,
-toGEOS
+toGEOS,
+GeoDataFrame,
+rename_geometry!,
+geo_column,
+geometry,
+getproperty,
+names,
+copy,
+index,
+setproperty!
 
 end # module

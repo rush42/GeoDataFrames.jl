@@ -52,3 +52,5 @@ toGEOS(geom::AbstractMultiPolygon) = LibGEOS.MultiPolygon(coordinates(geom))
 toGEOS(geom::AbstractGeometryCollection) = LibGEOS.GeometryCollection(coordinates(geom))
 
 toGEOS(geom::Union{LibGEOS.Point, LibGEOS.MultiPoint, LibGEOS.LineString, LibGEOS.MultiLineString, LibGEOS.Polygon, LibGEOS.MultiPolygon, LibGEOS.GeometryCollection}) = geom
+
+toGeos(geom::UndefInitializer) = undef

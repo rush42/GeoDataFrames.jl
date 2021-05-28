@@ -3,6 +3,7 @@ include("Convenience.jl")
 struct GeoVector <: AbstractVector{AbstractGeometry}
     geometries::Vector{AbstractGeometry}
     projected::Bool
+    GeoVector(geometries::Vector{<:AbstractGeometry}, projected::Bool) = new(geometries, projected)
 end
 
 
@@ -16,13 +17,21 @@ Base.getindex(gvec::GeoVector, i::Int) = gvec.geometries[i]
 
 Base.getindex(gvec::GeoVector, I::Vararg{Int, N}) where {N} = gvec.geometries[I...]
 
+Base.getindex(gvec::GeoVector, C::Union{Colon, AbstractArray{<:Int}, AbstractRange}, I::Vararg{Int,N}) where {N} = GeoVector(gvec.geometries[C,I...], gvec.projected)
+
 Base.setindex!(gvec::GeoVector, value::AbstractGeometry, i::Int) = (gvec.geometries[i] = value)
 
 Base.IndexStyle(::Type{<:GeoVector}) = IndexLinear()
 
-Base.getindex(gvec::GeoVector, I::Vararg{N}) where {N} = GeoVector(gvec.geometries[I...], gvec.projected)
 
-Base.similar(gvec::GeoVector, (N,)::Dims) = GeoVector(Vector{AbstractGeometry}(undef,N), gvec.projected)
+Base.similar(gvec::GeoVector, n::Int=length(gvec)) = GeoVector(similar(gvec.geometries,n), gvec.projected)
+
+Base.similar(gvec::GeoVector, (N,)::Dims) = GeoVector(similar(gvec.geometries,N), gvec.projected)
+
+function Base.resize!(gvec::GeoVector, n::Int) 
+    resize!(gvec.geometries, n)
+    return gvec
+end
 
 
 """
