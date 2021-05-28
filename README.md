@@ -5,10 +5,23 @@ This Package aims to provide a geopandas equivalent for Julia.
 # State
 
 This package is at an early development stage.
-The GeoVector.jl provides a minimal type(GeoVector) that can be used to handle series of AbstractGeometries.
+GeoVector.jl provides a minimal type(GeoVector) that can be used to handle series of AbstractGeometries.
+GeoDataFrame is a DataFrame containing at least on GeoVector and currently provides plotting based on an other column(numeric).
 The underliying framework is LibGEOS.jl.
 
 # Working
+
+GeoDataFrame (partialy) implements the AbstractDataFrame interface (GeoDataFrame <: AbstractDataFrame).
+Currently there is only plotting based on numerical columns and w/o a legend.
+
+```Julia
+germany_covid = GeoJSON.read(read("./corona_germany.geojson"))
+gdf = GeoDataFrame(germany_covid)
+
+plot(gdf, column=:cases_per_100k, colors=cgrad(:thermal, rev=true))
+```
+![plot](./examples/corona_cases_per_100k.png)
+
 GeoVector implements the AbstractArray interface (GeoVector <: AbstractVector).
 
 Currently there is only the default constructor:
