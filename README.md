@@ -121,8 +121,7 @@ ratio(gvec::GeoVector)
 totalbounds(gvec::GeoVector) 
 ```
 
-Additionally a recipe is provided for plotting GeoVectors.
-This takes care to set the right aspect ratio when plotting unprojected(spherical geometries).
+A recipe is provided for plotting GeoVectors, which sets the right aspect ratio when plotting unprojected(spherical geometries).
 
 # Examples
 Check out examples/berlin.jl for a qucik overview of the existing functionality.
